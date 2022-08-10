@@ -8,7 +8,8 @@ const routes = [
   {
     path: '/concerts',
     name: 'concerts',
-    component: ConcertsView
+    component: ConcertsView,
+    alias: '/'
   },
   {
     path: '/my-reservations',
