@@ -8,30 +8,35 @@ const urlAuth = 'http://localhost:8082/auth'
 
 export default new Vuex.Store({
   state: {
-    concerts: [],
-    reservations: [],
-    token: ''
+      concerts: [],
+      reservations: [],
+      token: '',
+      currentConcert: Object
   },
   getters: {
   },
   mutations: {
-    setToken(state, token) {
-      state.token = token;
-      localStorage.token = token;
-    },
+      setToken(state, token) {
+          state.token = token;
+          localStorage.token = token;
+        },
 
-    removeToken(state) {
-      state.token = '';
-      localStorage.token = '';
-    },
+      removeToken(state) {
+          state.token = '';
+          localStorage.token = '';
+      },
 
-    addConcerts(state, concerts){
-      this.state.concerts = concerts;
-    },
+      addConcerts(state, concerts) {
+          this.state.concerts = concerts;
+      },
 
-    addReservations(state, reservations){
-      this.state.reservations = reservations;
-    }
+      addReservations(state, reservations) {
+          this.state.reservations = reservations;
+      },
+
+      setCurrentConcert(state, concert){
+          this.state.currentConcert = concert;
+      }
   },
   actions: {
     register({ commit }, obj){
@@ -66,13 +71,13 @@ export default new Vuex.Store({
           });
     },
 
-    fetchConcerts({commit}){
+      fetchConcerts({commit}){
         fetch(urlCrud + '/concerts')
             .then(response => response.json())
             .then(res => commit('addConcerts', res));
-    },
+        },
 
-    fetchReservations({commit, state}){
+      fetchReservations({commit, state}){
         fetch(urlCrud + '/my-reservations', {
             headers: { 'Authorization': `Bearer ${state.token}` }
         }).then(res => res.json())
@@ -84,7 +89,15 @@ export default new Vuex.Store({
                     commit('addReservations', response);
                 }
             });
-    }
+    },
+
+      fetchConcert({commit}, concertId){
+        fetch(urlCrud + '/concert/' + concertId)
+            .then(result => result.json())
+            .then(concert => {
+                commit('setCurrentConcert', concert);
+            });
+      }
   }
 
 })
