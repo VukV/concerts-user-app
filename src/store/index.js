@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const urlCrud = 'http://localhost:8081/admin';
-const urlAuth = 'http://localhost:8082/admin'
+const urlAuth = 'http://localhost:8082/auth'
 
 export default new Vuex.Store({
   state: {
@@ -34,47 +34,57 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    register({commit}, obj){
-      this.$axios.post(urlAuth + '/register', {
-        username: obj.username,
-        password: obj.password,
-        email: obj.email
-      }).then(response => {
-        commit('setToken', response.data.token);
-      })
+    register({ commit }, obj){
+      fetch(urlAuth + '/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(obj)
+      }).then( res => res.json())
+          .then( tkn => {
+            if(tkn.message){
+              alert(tkn.message);
+            }
+            else {
+              commit('setToken', tkn.token);
+            }
+          });
     },
 
-    login({commit}, obj){
-      this.$axios.post(urlAuth + '/login', {
-        username: obj.username,
-        password: obj.password
-      }).then(response => {
-        if(response.data.message){
-          alert(response.data.message);
-        }
-        else {
-          commit('setToken', response.data.token);
-        }
-      })
+    login({ commit }, obj){
+      fetch(urlAuth + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(obj)
+      }).then( res => res.json())
+          .then(tkn => {
+            if(tkn.message){
+              alert(tkn.message);
+            }
+            else {
+              commit('setToken', tkn.token);
+            }
+          });
     },
 
     fetchConcerts({commit}){
-      this.$axios.get(urlCrud + '/concerts')
-          .then(response => {
-            commit('addConcerts', response.data)
-          })
+        fetch(urlCrud + '/concerts')
+            .then(response => response.json())
+            .then(res => commit('addConcerts', res));
     },
 
-    fetchReservations({commit}){
-      this.$axios.get(urlCrud + '/my-reservations')
-          .then(response => {
-            if(response.message){
-              alert("You need to login.");
-            }
-            else{
-              commit('addReservations', response.data);
-            }
-          })
+    fetchReservations({commit, state}){
+        fetch(urlCrud + '/my-reservations', {
+            headers: { 'Authorization': `Bearer ${state.token}` }
+        }).then(res => res.json())
+            .then(response => {
+                if(response.message){
+                    alert("You need to login.");
+                }
+                else{
+                    commit('addReservations', response);
+                }
+            });
     }
   }
+
 })

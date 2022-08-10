@@ -14,9 +14,9 @@
             </b-navbar-nav>
 
             <b-navbar-nav class="ms-auto">
-              <b-nav-item v-if="!token" to="/register">Register</b-nav-item>
-              <b-nav-item v-if="!token" to="/login">Log In</b-nav-item>
-              <b-nav-item v-else @click="logout()">Log Out</b-nav-item>
+              <b-nav-item v-if="!getToken" to="/register">Register</b-nav-item>
+              <b-nav-item v-if="!getToken" to="/login">Log In</b-nav-item>
+              <b-nav-item v-else @click="logout">Log Out</b-nav-item>
             </b-navbar-nav>
           </b-collapse>
         </div>
@@ -26,8 +26,31 @@
 </template>
 
 <script>
+
+import {mapMutations} from 'vuex'
+
 export default {
-  name: 'NavbarComponent'
+  name: 'NavbarComponent',
+  computed:{
+    getToken(){
+      return this.$store.state.token;
+    }
+  },
+  mounted() {
+    if(localStorage.token){
+      this.setToken(localStorage.token);
+    }
+  },
+  methods:{
+    ...mapMutations([
+        'removeToken',
+        'setToken'
+    ]),
+
+    logout(){
+      this.removeToken();
+    }
+  }
 }
 </script>
 
