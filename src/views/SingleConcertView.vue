@@ -13,7 +13,7 @@ export default {
     }
   },
   created() {
-    let concertId = this.$route.params.id;
+    //let concertId = this.$route.params.id;
     //TODO axios get single concert
   }
 }
