@@ -40,42 +40,51 @@ export default new Vuex.Store({
           this.state.reservations = reservations;
       },
 
+      cancelReservation(state, resId){
+          for(let i = 0; i < this.state.reservations.length; i++){
+              if(this.state.reservations[i].id === resId){
+                  this.state.reservations.splice(i, 1);
+              }
+          }
+      },
+
       setCurrentConcert(state, concert){
           this.state.currentConcert = concert;
       }
   },
   actions: {
-    register({ commit }, obj){
-      fetch(urlAuth + '/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(obj)
-      }).then( res => res.json())
-          .then( tkn => {
-            if(tkn.message){
-              alert(tkn.message);
-            }
-            else {
-              commit('setToken', tkn.token);
-            }
-          });
-    },
+      register({ commit }, obj){
+          fetch(urlAuth + '/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(obj)
+          }).then( res => res.json())
+              .then( tkn => {
+                if(tkn.message){
+                  alert(tkn.message);
+                }
+                else {
+                  commit('setToken', tkn.token);
+                }
+              });
+      },
 
-    login({ commit }, obj){
-      fetch(urlAuth + '/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(obj)
-      }).then( res => res.json())
-          .then(tkn => {
-            if(tkn.message){
-              alert(tkn.message);
-            }
-            else {
-              commit('setToken', tkn.token);
-            }
-          });
-    },
+
+      login({ commit }, obj){
+          fetch(urlAuth + '/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(obj)
+          }).then( res => res.json())
+              .then(tkn => {
+                  if(tkn.message){
+                      alert(tkn.message);
+                  }
+                  else {
+                      commit('setToken', tkn.token);
+                  }
+              });
+          },
 
       fetchConcerts({commit}){
         fetch(urlCrud + '/concerts')
@@ -95,7 +104,27 @@ export default new Vuex.Store({
                     commit('addReservations', response);
                 }
             });
-    },
+        },
+
+      cancelReservation({commit, state}, obj){
+        fetch(urlCrud + '/cancel-reservation', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${state.token}`
+            },
+            body: JSON.stringify(obj)
+        })
+            .then(res => res.json())
+            .then(response => {
+                if(response.message){
+                    alert(response.message);
+                }
+                else {
+                    commit('cancelReservation', obj.id);
+                }
+            })
+      },
 
       fetchConcert({commit}, concertId){
         fetch(urlCrud + '/concert/' + concertId)

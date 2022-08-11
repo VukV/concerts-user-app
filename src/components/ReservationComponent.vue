@@ -21,14 +21,19 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   name: "ReservationComponent",
   props:{
     reservation: Object
   },
   methods:{
-    cancelReservation(reservation){
-      console.log(reservation);
+    ...mapActions([
+        'cancelReservation'
+    ]),
+    cancelRes(reservation){
+      this.cancelReservation(reservation);
     }
   }
 }
