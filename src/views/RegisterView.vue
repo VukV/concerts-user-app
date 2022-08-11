@@ -7,7 +7,7 @@
     <br><br>
     <input type="password" placeholder="password" id="password-register">
     <br><br>
-    <button class="btn btn-outline-warning" @click="onRegister">Register</button>
+    <button class="btn btn-outline-primary" @click="onRegister">Register</button>
   </div>
 </template>
 

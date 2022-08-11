@@ -1,5 +1,5 @@
 <template>
-  <div class="container single-concert" @click="openConcert(concert)">
+  <div class="container single-concert">
     <div class="row align-items-center">
       <div class="col-md-3 d-flex justify-content-center">
         <h3>{{ concert.bandName }}</h3>
@@ -14,7 +14,7 @@
         <h6>{{ concert.time }}</h6>
       </div>
       <div class="col-md-3 d-flex justify-content-center">
-        <button class="btn btn-outline-danger">GET TICKETS</button>
+        <button class="btn btn-outline-danger" @click="openConcert(concert)">GET TICKETS</button>
       </div>
     </div>
   </div>

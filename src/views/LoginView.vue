@@ -5,7 +5,7 @@
     <br><br>
     <input type="password" placeholder="password" id="password-login">
     <br><br>
-    <button class="btn btn-outline-warning" @click="onLogin">Login</button>
+    <button class="btn btn-outline-primary" @click="onLogin">Login</button>
   </div>
 </template>
 
