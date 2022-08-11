@@ -40,6 +40,10 @@ export default new Vuex.Store({
           this.state.reservations = reservations;
       },
 
+      makeReservation(state, res){
+        this.state.reservations.push(res);
+      },
+
       cancelReservation(state, resId){
           for(let i = 0; i < this.state.reservations.length; i++){
               if(this.state.reservations[i].id === resId){
@@ -106,6 +110,27 @@ export default new Vuex.Store({
             });
         },
 
+      makeReservation({commit, state}, obj){
+          fetch(urlCrud + '/make-reservation', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${state.token}`
+              },
+              body: JSON.stringify(obj)
+          })
+              .then(res => res.json())
+              .then(response => {
+                  if(response.message){
+                      alert(response.message);
+                  }
+                  else {
+                      commit('makeReservation', response);
+                      alert("Reservation made!");
+                  }
+              })
+      },
+
       cancelReservation({commit, state}, obj){
         fetch(urlCrud + '/cancel-reservation', {
             method: 'DELETE',
@@ -123,7 +148,7 @@ export default new Vuex.Store({
                 else {
                     commit('cancelReservation', obj.id);
                 }
-            })
+            });
       },
 
       fetchConcert({commit}, concertId){

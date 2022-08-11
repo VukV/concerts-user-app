@@ -7,9 +7,15 @@
         <h6>{{ currentConcert.date }}</h6>
         <h6>{{ currentConcert.time }}</h6>
       </div>
-      <div class="col-md-6 d-flex justify-content-center">
-
+      <div class="col-md-6">
+        <h4>Number of tickets:</h4>
+        <input v-model="ticketsNumber" type="number" placeholder="Number of tickets">
+        <br><br>
+        <button class="btn btn-primary" @click="makeRes">Make Reservation</button>
       </div>
+    </div>
+    <div class="row">
+      <h5 class="blue-h5">Available tickets: {{ currentConcert.ticketsNumber }}</h5>
     </div>
   </div>
 </template>
@@ -20,6 +26,12 @@ import {mapState, mapActions} from "vuex";
 
 export default {
   name: "SingleConcertView",
+  data() {
+    return {
+      concertId: 0,
+      ticketsNumber: 1
+    }
+  },
   computed:{
     ...mapState([
         'currentConcert'
@@ -27,11 +39,24 @@ export default {
   },
   methods:{
     ...mapActions([
-        'fetchConcert'
-    ])
+        'fetchConcert',
+        'makeReservation'
+    ]),
+
+    makeRes(){
+      if(this.concertId !== 0){
+        let newRes = {
+          concertId: this.concertId,
+          ticketsNumber: this.ticketsNumber
+        }
+
+        this.makeReservation(newRes);
+      }
+    }
   },
   created() {
     let concertId = this.$route.params.id;
+    this.concertId = concertId;
     this.fetchConcert(concertId);
   }
 }
@@ -40,5 +65,10 @@ export default {
 <style scoped>
   .concert-info{
     margin: 30px;
+  }
+
+  .blue-h5{
+    margin-top: 20px;
+    color: dodgerblue;
   }
 </style>

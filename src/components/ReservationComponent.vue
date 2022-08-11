@@ -31,10 +31,7 @@ export default {
   methods:{
     ...mapActions([
         'cancelReservation'
-    ]),
-    cancelRes(reservation){
-      this.cancelReservation(reservation);
-    }
+    ])
   }
 }
 </script>
