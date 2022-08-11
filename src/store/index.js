@@ -9,6 +9,7 @@ const urlAuth = 'http://localhost:8082/auth'
 export default new Vuex.Store({
   state: {
       concerts: [],
+      concertsPaginated: [],
       reservations: [],
       token: '',
       currentConcert: Object
@@ -28,6 +29,11 @@ export default new Vuex.Store({
 
       addConcerts(state, concerts) {
           this.state.concerts = concerts;
+          this.state.concertsPaginated = concerts.slice(0, 5)
+      },
+
+      setNewPagination(state, currentPage){
+          this.state.concertsPaginated = this.state.concerts.slice((currentPage - 1) * 5, currentPage * 5);
       },
 
       addReservations(state, reservations) {

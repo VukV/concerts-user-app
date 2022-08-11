@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-navbar toggleable="lg" type="dark" variant="warning">
+      <b-navbar toggleable="lg" type="dark" variant="primary">
         <div class="container">
           <b-navbar-brand to="/concerts">94/20RN</b-navbar-brand>
 
