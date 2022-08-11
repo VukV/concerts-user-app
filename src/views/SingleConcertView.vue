@@ -1,22 +1,23 @@
 <template>
   <div class="container concert-info">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12 text-center">
         <h3>{{ currentConcert.bandName }}</h3>
         <h4>{{ currentConcert.venueName }}</h4>
         <h6>{{ currentConcert.date }}</h6>
         <h6>{{ currentConcert.time }}</h6>
-      </div>
-      <div class="col-md-6">
+
+        <br>
+        <h5 class="blue-h5">Available tickets: {{ currentConcert.ticketsNumber }}</h5>
+        <br>
+
         <h4>Number of tickets:</h4>
         <input v-model="ticketsNumber" type="number" placeholder="Number of tickets">
         <br><br>
         <button class="btn btn-primary" @click="makeRes">Make Reservation</button>
       </div>
     </div>
-    <div class="row">
-      <h5 class="blue-h5">Available tickets: {{ currentConcert.ticketsNumber }}</h5>
-    </div>
+
   </div>
 </template>
 
