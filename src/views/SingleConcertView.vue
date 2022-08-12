@@ -35,7 +35,8 @@ export default {
   },
   computed:{
     ...mapState([
-        'currentConcert'
+        'currentConcert',
+        'token'
     ])
   },
   methods:{
@@ -51,7 +52,9 @@ export default {
           ticketsNumber: this.ticketsNumber
         }
 
-        this.makeReservation(newRes);
+        console.log("stigao do socketa");
+        //this.makeReservation(newRes);
+        this.$socket.emit('new_reservation', {body: newRes, token: this.token});
       }
     }
   },

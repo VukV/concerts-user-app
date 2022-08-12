@@ -157,7 +157,14 @@ export default new Vuex.Store({
             .then(concert => {
                 commit('setCurrentConcert', concert);
             });
+      },
+
+      socket_new_reservation({ commit }, msg){
+          let socketConcert = JSON.parse(msg);
+          if(socketConcert.id === this.state.currentConcert.id){
+              console.log("ISTI SU");
+              commit('setCurrentConcert', socketConcert);
+          }
       }
   }
-
 })

@@ -13,6 +13,11 @@ import NavbarComponent from "@/components/NavbarComponent";
 export default {
   components: {
     NavbarComponent
+  },
+  sockets: {
+    error(err) {
+      alert(err);
+    }
   }
 }
 </script>
