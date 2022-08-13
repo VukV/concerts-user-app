@@ -53,7 +53,6 @@ export default {
         }
 
         console.log("stigao do socketa");
-        //this.makeReservation(newRes);
         this.$socket.emit('new_reservation', {body: newRes, token: this.token});
       }
     }

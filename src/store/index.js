@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const urlCrud = 'http://localhost:8081/admin';
-const urlAuth = 'http://localhost:8082/auth'
+const urlCrud = 'https://sj-crud-server.herokuapp.com/admin';
+const urlAuth = 'https://sj-auth-server.herokuapp.com/auth'
 
 export default new Vuex.Store({
   state: {
